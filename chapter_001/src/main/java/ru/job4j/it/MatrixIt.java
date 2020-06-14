@@ -19,7 +19,7 @@ public class MatrixIt implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        int rsl;
+        int rsl = 0;
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
