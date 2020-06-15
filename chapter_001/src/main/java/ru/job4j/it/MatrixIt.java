@@ -19,7 +19,6 @@ public class MatrixIt implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        int rsl = 0;
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
@@ -27,7 +26,7 @@ public class MatrixIt implements Iterator<Integer> {
             column = 0;
             row++;
         }
-        rsl = data[row][column];
+        int rsl = data[row][column];
         column++;
         return rsl;
     }
