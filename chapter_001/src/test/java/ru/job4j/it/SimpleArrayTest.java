@@ -28,6 +28,20 @@ public class SimpleArrayTest {
     }
 
     @Test
+    public void emptyArray() {
+        SimpleArray<Integer> simple = new SimpleArray<Integer>(3);
+        Iterator<Integer> iterator = simple.iterator();
+        assertThat(iterator.hasNext(), is(false));
+    }
+
+    @Test (expected = IndexOutOfBoundsException.class)
+    public void exeptionInArray() {
+        SimpleArray<Integer> simple = new SimpleArray<Integer>(3);
+        simple.add(11);
+        simple.get(1);
+    }
+
+    @Test
     public void stringIterator() {
         SimpleArray<String> simple = new SimpleArray<String>(3);
         simple.add("string1");
