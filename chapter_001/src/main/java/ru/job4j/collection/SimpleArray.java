@@ -12,10 +12,14 @@ public class SimpleArray<T> implements Iterable<T> {
         return (T) this.container[index];
     }
 
-    public void add(T model) {
+    private void extensionArray() {
         if (this.index >= this.container.length) {
             this.container = Arrays.copyOf(this.container, this.container.length * 2);
         }
+    }
+
+    public void add(T model) {
+        extensionArray();
         this.container[this.index++] = (T) model;
         this.modCount++;
     }
