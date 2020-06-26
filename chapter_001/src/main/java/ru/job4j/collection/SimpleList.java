@@ -30,6 +30,14 @@ public class SimpleList<E> implements Iterable<E> {
         itemCount++;
     }
 
+    public void deleteFirst() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+        head = head.getNext();
+        itemCount--;
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
