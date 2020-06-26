@@ -3,56 +3,54 @@ package ru.job4j.collection;
 import java.util.*;
 
 public class SimpleList<E> implements Iterable<E> {
-    private Node<E> current;
-    private int modCount = 0;
+    private Node<E> head;
+    private int itemCount = 0;
 
     public E get(int index) {
-        Objects.checkIndex(index,  modCount);
-        Node<E> rsl = current;
+        Objects.checkIndex(index, itemCount);
+        Node<E> rsl = head;
         int position = 0;
         while (position < index) {
-            rsl = current.getNext();
+            rsl = head.getNext();
             position++;
         }
         return rsl.getItem();
     }
 
     public void add(E model) {
-        if (modCount == 0) {
-            current  = new Node<>(null, model, null);
+        if (head == null) {
+            head  = new Node<>(model, null);
         } else {
-            current.setNext(new Node<>(current, model, null));
+            Node<E> tail = head;
+            while (tail.getNext() != null) {
+                tail = tail.getNext();
+            }
+            tail.setNext(new Node<>(model, null));
         }
-        modCount++;
+        itemCount++;
     }
 
     @Override
     public Iterator<E> iterator() {
-        int expectedModCount = this.modCount;
-
         return new Iterator<>() {
-            private int position = 0;
+            private int expectedModCount = itemCount;
+            private Node<E> node = head;
 
             @Override
             public boolean hasNext() {
-                return position < modCount;
+                return node != null;
             }
 
             @Override
             public E next() {
-                E rsl;
-                if (expectedModCount != modCount) {
+                if (expectedModCount != itemCount) {
                     throw new ConcurrentModificationException();
                 }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (position == 0) {
-                    rsl = current.getItem();
-                } else {
-                    rsl = current.getNext().getItem();
-                }
-                position++;
+                E rsl = node.getItem();
+                node = node.getNext();
                 return rsl;
             }
         };

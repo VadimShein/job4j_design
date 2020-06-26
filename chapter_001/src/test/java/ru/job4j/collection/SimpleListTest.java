@@ -23,11 +23,14 @@ public class SimpleListTest {
         SimpleList<String> list = new SimpleList<>();
         list.add("first");
         list.add("second");
+        list.add("third");
         Iterator<String> iterator = list.iterator();
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next(), is("first"));
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next(), is("second"));
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.next(), is("third"));
         assertThat(iterator.hasNext(), is(false));
     }
 
