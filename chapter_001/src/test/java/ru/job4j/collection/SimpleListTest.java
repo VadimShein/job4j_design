@@ -14,8 +14,10 @@ public class SimpleListTest {
         SimpleList<String> list = new SimpleList<>();
         list.add("first");
         list.add("second");
+        list.add("third");
         assertThat(list.get(0), is("first"));
         assertThat(list.get(1), is("second"));
+        assertThat(list.get(2), is("third"));
     }
 
     @Test

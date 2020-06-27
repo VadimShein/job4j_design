@@ -11,10 +11,14 @@ public class SimpleList<E> implements Iterable<E> {
         Node<E> rsl = head;
         int position = 0;
         while (position < index) {
-            rsl = head.getNext();
+            rsl = rsl.getNext();
             position++;
         }
         return rsl.getItem();
+    }
+
+    public E getLast() {
+        return get(itemCount - 1);
     }
 
     public void add(E model) {
@@ -35,6 +39,24 @@ public class SimpleList<E> implements Iterable<E> {
             throw new NoSuchElementException();
         }
         head = head.getNext();
+        itemCount--;
+    }
+
+    public void deleteLast() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+
+        Node<E> tmp = head;
+
+        if (itemCount == 1) {
+            head = null;
+        } else  {
+            while (tmp.getNext() != null) {
+                tmp = tmp.getNext();
+            }
+            tmp.setNext(null);
+        }
         itemCount--;
     }
 
