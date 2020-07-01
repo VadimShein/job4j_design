@@ -4,9 +4,7 @@ public class SimpleStack<E>  {
     private SimpleList<E> linked = new SimpleList<>();
 
     public E pop() {
-        E rsl = linked.getLast();
-        linked.deleteLast();
-        return rsl;
+        return linked.deleteLast();
     }
 
     public void push(E value) {
