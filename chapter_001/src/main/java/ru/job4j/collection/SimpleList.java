@@ -54,8 +54,11 @@ public class SimpleList<E> implements Iterable<E> {
             tmp.setNext(null);
         }
         itemCount--;
-        System.out.println("rsl " + tmp.getItem());
         return tmp.getItem();
+    }
+
+    public boolean isEmpty() {
+        return head == null;
     }
 
     @Override

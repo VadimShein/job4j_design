@@ -10,4 +10,8 @@ public class SimpleStack<E>  {
     public void push(E value) {
         linked.add(value);
     }
+
+    public boolean isEmpty() {
+        return linked.isEmpty();
+    }
 }
