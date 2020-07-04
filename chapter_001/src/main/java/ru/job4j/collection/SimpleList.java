@@ -61,6 +61,28 @@ public class SimpleList<E> implements Iterable<E> {
         return head == null;
     }
 
+    public void revert() {
+        if (head.getNext() != null) {
+            Node<E> first = head;
+            Node<E> second = head.getNext();
+            Node<E> third = second.getNext();
+
+            first.setNext(null);
+            second.setNext(first);
+
+            Node<E> current = third;
+            Node<E> previous = second;
+
+            while (current != null) {
+                Node<E> next = current.getNext();
+                current.setNext(previous);
+                previous = current;
+                current = next;
+            }
+            head = previous;
+        }
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
