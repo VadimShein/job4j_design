@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ForwardLinkedTest {
 
@@ -30,5 +31,11 @@ public class ForwardLinkedTest {
         assertThat(it.next(), is(3));
         assertThat(it.next(), is(2));
         assertThat(it.next(), is(1));
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenNoSuchElementException() {
+        SimpleList<Integer> linked = new SimpleList<>();
+        linked.revert();
     }
 }

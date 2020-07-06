@@ -62,6 +62,9 @@ public class SimpleList<E> implements Iterable<E> {
     }
 
     public void revert() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
         if (head.getNext() != null) {
             Node<E> first = head;
             Node<E> second = head.getNext();
