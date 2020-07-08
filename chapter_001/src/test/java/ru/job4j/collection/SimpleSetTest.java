@@ -1,5 +1,6 @@
 package ru.job4j.collection;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
@@ -27,6 +28,17 @@ public class SimpleSetTest {
         array.add("first");
         array.add("first");
         Iterator<String> it = array.iterator();
+        assertThat(it.next(), is("first"));
+        assertThat(it.hasNext(), is(false));
+    }
+
+    @Test
+    public void whenAddNullThenGet() {
+        SimpleSet<String> array = new SimpleSet<>();
+        array.add(null);
+        array.add("first");
+        Iterator<String> it = array.iterator();
+        Assert.assertNull(it.next());
         assertThat(it.next(), is("first"));
         assertThat(it.hasNext(), is(false));
     }

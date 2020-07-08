@@ -1,22 +1,27 @@
 package ru.job4j.collection;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SimpleSet<E> implements Iterable<E> {
-    SimpleList<E> list = new SimpleList<>();
+    private SimpleList<E> list = new SimpleList<>();
 
     public void add(E model) {
-    Iterator<E> it = list.iterator();
-        boolean access = true;
+        if (!contains(model)) {
+            list.add(model);
+        }
+    }
+
+    private boolean contains(E model) {
+        Iterator<E> it = list.iterator();
+        boolean contains = false;
         while (it.hasNext()) {
-            if (it.next().equals(model)) {
-                access = false;
+            if (Objects.equals(it.next(), model)) {
+                contains = true;
                 break;
             }
         }
-        if (access) {
-            list.add(model);
-        }
+        return contains;
     }
 
     @Override
