@@ -46,14 +46,14 @@ public class HashMapTest {
         assertThat(it.hasNext(), is(false));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test(expected = NullPointerException.class)
     public void whenAddThenDelete() {
         HashMap<Integer, String> map = new HashMap<>();
         map.insert(1, "first");
         map.insert(2, "second");
         map.delete(2);
         assertThat(map.get(1), is("first"));
-        assertNull(map.get(2));
+        map.get(2);
     }
 
     @Test(expected = NoSuchElementException.class)

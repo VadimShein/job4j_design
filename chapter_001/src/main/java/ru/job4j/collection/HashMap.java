@@ -6,13 +6,10 @@ public class HashMap<K, V> implements Iterable<V> {
     private int tableLength = 4;
     transient NodeMap<K, V>[] container = new NodeMap[tableLength];
     private int itemCount = 0;
-
+    private int modCount = 0;
 
     public V get(K key) {
-        if (this.container[tablePosition(key)] == null) {
-            throw new IndexOutOfBoundsException();
-        }
-        return this.container[tablePosition(key)].getValue();
+        return this.container[tablePosition(key)].getKey() == key ?  this.container[tablePosition(key)].getValue() : null;
     }
 
     private int tablePosition(K key) {
@@ -27,14 +24,18 @@ public class HashMap<K, V> implements Iterable<V> {
         } else {
             this.container[tablePosition(key)] = map;
             this.itemCount++;
+            this.modCount++;
         }
         extensionArray();
         return rsl;
     }
 
     public void delete(K key) {
-        this.container[tablePosition(key)] = null;
+        if (this.container[tablePosition(key)].getKey() == key) {
+            this.container[tablePosition(key)] = null;
+        }
         this.itemCount--;
+        this.modCount++;
     }
 
     @Override
@@ -43,7 +44,8 @@ public class HashMap<K, V> implements Iterable<V> {
     }
 
     private void extensionArray() {
-        if (this.itemCount >= this.tableLength * 0.75f) {
+        int threshold = (int) (this.tableLength * 0.75f);
+        if (this.itemCount >= threshold) {
             tableLength = tableLength * 2;
             NodeMap<K, V>[] newContainer = new NodeMap[tableLength];
             for (NodeMap<K, V> cell : container) {
@@ -57,7 +59,7 @@ public class HashMap<K, V> implements Iterable<V> {
 
     @Override
     public Iterator<V> iterator() {
-        int expectedModCount = this.itemCount;
+        int expectedModCount = this.modCount;
 
         return new Iterator<>() {
             private int index = 0;
@@ -69,7 +71,7 @@ public class HashMap<K, V> implements Iterable<V> {
 
             @Override
             public V next() {
-                if (expectedModCount != itemCount) {
+                if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
                 if (!hasNext()) {
