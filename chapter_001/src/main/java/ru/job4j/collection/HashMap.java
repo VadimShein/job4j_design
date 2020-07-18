@@ -9,7 +9,8 @@ public class HashMap<K, V> implements Iterable<V> {
     private int modCount = 0;
 
     public V get(K key) {
-        return this.container[tablePosition(key)].getKey() == key ?  this.container[tablePosition(key)].getValue() : null;
+        return Objects.equals(this.container[tablePosition(key)].getKey(), key)
+                ? this.container[tablePosition(key)].getValue() : null;
     }
 
     private int tablePosition(K key) {
@@ -44,8 +45,8 @@ public class HashMap<K, V> implements Iterable<V> {
     }
 
     private void extensionArray() {
-        int threshold = (int) (this.tableLength * 0.75f);
-        if (this.itemCount >= threshold) {
+        final float THRESHOLD = 0.75f;
+        if (this.itemCount >= this.tableLength * THRESHOLD) {
             tableLength = tableLength * 2;
             NodeMap<K, V>[] newContainer = new NodeMap[tableLength];
             for (NodeMap<K, V> cell : container) {
