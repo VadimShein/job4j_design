@@ -32,7 +32,7 @@ public class HashMap<K, V> implements Iterable<V> {
     }
 
     public void delete(K key) {
-        if (this.container[tablePosition(key)].getKey() == key) {
+        if (Objects.equals(this.container[tablePosition(key)].getKey(), key)) {
             this.container[tablePosition(key)] = null;
         }
         this.itemCount--;
