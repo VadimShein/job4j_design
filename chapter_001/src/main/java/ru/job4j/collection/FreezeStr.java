@@ -1,22 +1,33 @@
 package ru.job4j.collection;
 
-import java.util.Arrays;
+import java.util.Map;
 
 public class FreezeStr {
     public static boolean eq(String left, String right) {
         boolean rsl = true;
-        char[] charArrayLeft =  left.toCharArray();
-        char[] charArrayRight =  right.toCharArray();
-        Arrays.sort(charArrayLeft);
-        Arrays.sort(charArrayRight);
+        Map<Character, Integer> map = new java.util.HashMap<>();
+        char[] charArrayLeft = left.toCharArray();
+        char[] charArrayRight = right.toCharArray();
 
-        int size  = Math.min(charArrayLeft.length, charArrayRight.length);
-        for (int i = 0; i < size; i++) {
-            if (charArrayLeft[i] != charArrayRight[i]) {
+        for (char c : charArrayLeft) {
+            int count = 1;
+            if (map.containsKey(c)) {
+                count = map.get(c) + 1;
+            }
+            map.put(c, count);
+        }
+        for (char c : charArrayRight) {
+            int count = -1;
+            if (map.containsKey(c)) {
+                count = map.get(c) - 1;
+            }
+            map.put(c, count);
+        }
+        for (char c : map.keySet()) {
+            if (map.get(c) != 0) {
                 rsl = false;
-                break;
             }
         }
-        return rsl && charArrayLeft.length == charArrayRight.length;
+    return rsl;
     }
 }
