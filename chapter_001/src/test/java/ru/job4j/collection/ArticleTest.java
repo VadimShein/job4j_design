@@ -20,6 +20,17 @@ public class ArticleTest {
     }
 
     @Test
+    public void whenLineGnrTrueAndRepeat() {
+        assertThat(
+                Article.generateBy(
+                        "Мама мыла раму и окно",
+                        "Мама мыла окно окно"
+                ),
+                is(false)
+        );
+    }
+
+    @Test
     public void whenLineGnrFalse() {
         assertThat(
                 Article.generateBy(
