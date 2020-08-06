@@ -21,19 +21,13 @@ class Tree<E> implements SimpleTree<E> {
         return rsl;
     }
 
-    public boolean sort(Node<E> el, Predicate<Node<E>> predicate) {
-        return predicate.test(el);
-    }
-
-    @Override
-    public Optional<Node<E>> findBy(E value) {
-        Predicate<Node<E>> predicate = i -> i.value.equals(value);
+    public Optional<Node<E>> find(Predicate<Node<E>> condition) {
         Optional<Node<E>> rsl = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
-            if (sort(el, predicate)) {
+            if (condition.test(el)) {
                 rsl = Optional.of(el);
                 break;
             }
@@ -42,19 +36,12 @@ class Tree<E> implements SimpleTree<E> {
         return rsl;
     }
 
+    @Override
+    public Optional<Node<E>> findBy(E value) {
+        return find(i -> i.value.equals(value));
+    }
+
     public boolean isBinary() {
-        boolean rsl = true;
-        Predicate<Node<E>> predicate = i -> i.children.size() > 2;
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
-        while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (sort(el, predicate)) {
-                rsl = false;
-                break;
-            }
-            data.addAll(el.children);
-        }
-        return rsl;
+        return find(i -> i.children.size() > 2).isEmpty();
     }
 }
