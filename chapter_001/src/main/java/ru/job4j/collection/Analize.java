@@ -9,29 +9,23 @@ public class Analize {
     private int deleted = 0;
 
     public Info diff(List<User> previous, List<User> current) {
-        for (User prevUser : previous) {
-            for (int i = 0; i < current.size(); i++) {
-                if (prevUser.getId() != current.get(i).getId() && i == current.size() - 1) {
-                    this.deleted++;
-                } else if (prevUser.getId() == current.get(i).getId()) {
-                    if (!prevUser.getName().equals(current.get(i).getName())) {
-                        changed++;
-                    }
-                    break;
+        java.util.HashMap<Integer, String> map = new java.util.HashMap<>();
+        for (User c : previous) {
+            map.put(c.getId(), c.getName());
+        }
+        for (User c : current) {
+            if (!map.containsKey(c.getId())) {
+                this.added++;
+            } else {
+                if (!map.containsValue(c.getName())) {
+                    this.changed++;
                 }
+                map.remove(c.getId());
             }
         }
-        for (User curUser : current) {
-            for (int i = 0; i < previous.size(); i++) {
-                if (curUser.getId() != previous.get(i).getId() && i == previous.size() - 1) {
-                    this.added++;
-                } else if (curUser.getId() == previous.get(i).getId()) {
-                    break;
-                }
-            }
-        }
+        this.deleted = map.size();
         return new Info(this.added, this.changed, this.deleted);
-    }
+}
 
     public static class User {
         private int id;
