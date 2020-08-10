@@ -15,10 +15,10 @@ public class AnalyzeTest {
     @Test
     public void whenIdenticalFiles() throws IOException {
         Analyze analyze = new Analyze();
-        analyze.unavailable("C://projects/job4j_design/chapter_002/src/main/java/ru/job4j/io/data/serverLog",
-                "C://projects/job4j_design/chapter_002/src/main/java/ru/job4j/io/data/unavailable.csv");
-        Path actual = Path.of("C:/projects/job4j_design/chapter_002/src//main//java/ru/job4j/io/data/unavailable.csv");
-        Path expected = Path.of("C:/projects//job4j_design/chapter_002/src/main/java/ru/job4j//io/data/unavailableTestFile.csv");
+        analyze.unavailable("./src/main/java/ru/job4j/io/data/serverLog",
+                "./src/main/java/ru/job4j/io/data/unavailable.csv");
+        Path actual = Path.of("./src/main/java/ru/job4j/io/data/unavailable.csv");
+        Path expected = Path.of("./src/main/java/ru/job4j/io/data/unavailableTestFile.csv");
         assertThat(Files.mismatch(actual, expected), is(-1L));
     }
 
@@ -28,11 +28,11 @@ public class AnalyzeTest {
     @Test
     public void whenUsedTemp() throws IOException {
         Analyze analyze = new Analyze();
-        analyze.unavailable("C://projects/job4j_design/chapter_002/src/main/java/ru/job4j/io/data/serverLog",
-                "C://projects/job4j_design/chapter_002/src/main/java/ru/job4j/io/data/unavailable.csv");
+        analyze.unavailable("./src/main/java/ru/job4j/io/data/serverLog",
+                "./src/main/java/ru/job4j/io/data/unavailable.csv");
 
         File source = folder.newFile("unavailable.csv");
-        try (BufferedReader in = new BufferedReader(new FileReader("C:/projects/job4j_design/chapter_002/src//main//java/ru/job4j/io/data/unavailable.csv"))) {
+        try (BufferedReader in = new BufferedReader(new FileReader("./src/main/java/ru/job4j/io/data/unavailable.csv"))) {
             String line;
             try (PrintWriter out = new PrintWriter(source)) {
                 while ((line = in.readLine()) != null) {
