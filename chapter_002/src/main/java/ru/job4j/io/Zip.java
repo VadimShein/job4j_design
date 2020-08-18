@@ -34,23 +34,22 @@ public class Zip {
         }
     }
 
-    public static List<File> dataSearch(String[] args) throws IOException {
-        ArgZip argZip = new ArgZip(args);
+    public static List<File> dataSearch(String directory, String type) throws IOException {
         List<File> listFiles = new ArrayList<>();
-        if (argZip.valid()) {
-            SearchFiles searcher = new SearchFiles(p -> p.getFileName().toString().endsWith(argZip.exclude()));
-            Files.walkFileTree(Paths.get(argZip.directory()), searcher);
+            SearchFiles searcher = new SearchFiles(p -> p.getFileName().toString().endsWith(type));
+            Files.walkFileTree(Paths.get(directory), searcher);
             List<Path> listPaths = searcher.getList();
             for (Path path : listPaths) {
                 listFiles.add(path.toFile());
             }
-        }
         return listFiles;
     }
 
     public static void main(String[] args) throws IOException {
         ArgZip argZip = new ArgZip(args);
-        List<File> listFiles = dataSearch(args);
-        new Zip().packFiles(listFiles, new File(argZip.output()));
+        if (argZip.valid()) {
+            List<File> listFiles = dataSearch(argZip.directory(), argZip.exclude());
+            new Zip().packFiles(listFiles, new File(argZip.output()));
+        }
     }
 }
