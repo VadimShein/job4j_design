@@ -9,58 +9,61 @@ import java.util.Scanner;
 public class ConsoleChat {
     private boolean run = true;
     private boolean pause = false;
-    private List<String> list = new ArrayList<>();
+    private List<String> savedPhrases = new ArrayList<>();
+    private List<String> readPhrases = new ArrayList<>();
+    private String chatAnswers;
+    private String chatLog;
 
+    public ConsoleChat(String chatAnswers, String chatLog) {
+        this.chatAnswers = chatAnswers;
+        this.chatLog = chatLog;
+    }
     public void start() {
+        final String STOP = "стоп";
+        final String CONTINUE = "продолжить";
+        final String FINISH = "закончить";
         while (run) {
             Scanner in = new Scanner(System.in);
             String line = in.nextLine();
-            list.add(line);
-                if (line.equals("закончить")) {
+            savedPhrases.add(line);
+                if (line.equals(FINISH)) {
                     System.out.println("Программа звершена");
                     run = false;
                     break;
                 }
-                if (line.equals("стоп")) {
+                if (line.equals(STOP)) {
                     System.out.println("Работа программы приостановлена");
                     pause = true;
                 }
-                if (line.equals("продолжить")) {
+                if (line.equals(CONTINUE)) {
                     System.out.println("Работа программы возобновлена");
                     pause = false;
                 }
                 if (!pause) {
-                    list.add(read());
+                    String phrase = read();
+                    System.out.println(phrase);
+                    savedPhrases.add(phrase);
                 }
         }
         write();
     }
-
     private String read() {
-        String rsl = null;
-        String file = "./chapter_002/src/main/java/ru/job4j/io/data/chatAnswers.txt";
-        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-            String line;
-            int n = 1;
-            int rand = (int) (1 + Math.random() * 10);
-            while ((line = in.readLine()) != null) {
-                if (n == rand) {
-                    rsl = line;
-                    System.out.println(line);
-                    break;
+        if (readPhrases.isEmpty()) {
+            try (BufferedReader in = new BufferedReader(new FileReader(chatAnswers))) {
+                String line;
+                while ((line = in.readLine()) != null) {
+                    readPhrases.add(line);
                 }
-                n++;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return rsl;
+        int rand = (int) (Math.random() * readPhrases.size());
+        return readPhrases.get(rand);
     }
-
     private void write() {
-        String file = "./chapter_002/src/main/java/ru/job4j/io/data/logChat.txt";
-        try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(file)))) {
-            for (String str : list) {
+        try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(chatLog)))) {
+            for (String str : savedPhrases) {
                 out.write(str + System.lineSeparator());
             }
         } catch (Exception e) {
@@ -69,7 +72,9 @@ public class ConsoleChat {
     }
 
     public static void main(String[] args) {
-        ConsoleChat chat = new ConsoleChat();
+        String chatAnswers = "./chapter_002/src/main/java/ru/job4j/io/data/chatAnswers.txt";
+        String chatLog = "./chapter_002/src/main/java/ru/job4j/io/data/chatLog.txt";
+        ConsoleChat chat = new ConsoleChat(chatAnswers, chatLog);
         chat.start();
     }
 }
