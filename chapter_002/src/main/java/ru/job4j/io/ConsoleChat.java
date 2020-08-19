@@ -18,10 +18,12 @@ public class ConsoleChat {
         this.chatAnswers = chatAnswers;
         this.chatLog = chatLog;
     }
+
     public void start() {
         final String STOP = "стоп";
         final String CONTINUE = "продолжить";
         final String FINISH = "закончить";
+        read();
         while (run) {
             Scanner in = new Scanner(System.in);
             String line = in.nextLine();
@@ -40,26 +42,23 @@ public class ConsoleChat {
                     pause = false;
                 }
                 if (!pause) {
-                    String phrase = read();
+                    int rand = (int) (Math.random() * readPhrases.size());
+                    String phrase = readPhrases.get(rand);
                     System.out.println(phrase);
                     savedPhrases.add(phrase);
                 }
         }
         write();
     }
-    private String read() {
-        if (readPhrases.isEmpty()) {
-            try (BufferedReader in = new BufferedReader(new FileReader(chatAnswers))) {
-                String line;
-                while ((line = in.readLine()) != null) {
-                    readPhrases.add(line);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+    private void read() {
+        try (BufferedReader in = new BufferedReader(new FileReader(chatAnswers))) {
+            String line;
+            while ((line = in.readLine()) != null) {
+                readPhrases.add(line);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        int rand = (int) (Math.random() * readPhrases.size());
-        return readPhrases.get(rand);
     }
     private void write() {
         try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(chatLog)))) {
