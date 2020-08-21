@@ -10,7 +10,7 @@ public class EchoServer {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();
-                     BufferedReader in = new BufferedReader(//принять
+                     BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     String str;
                     while (!(str = in.readLine()).isEmpty()) {
@@ -19,7 +19,9 @@ public class EchoServer {
                             server.close();
                         }
                     }
-                    out.write("HTTP/1.1 200 OK\r\n\\".getBytes()); //отправить
+                    if (!server.isClosed()) {
+                        out.write("HTTP/1.1 200 OK\r\n\\".getBytes());
+                    }
                 }
             }
         }
