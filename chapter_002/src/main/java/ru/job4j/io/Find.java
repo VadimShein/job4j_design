@@ -5,13 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Find {
     public static List<Path> dataSearch(String directory, String type, String findType) throws IOException {
         SearchFiles searcher = null;
+        Pattern pattern = Pattern.compile(type);
 
         if (findType.equals("r")) {
-            searcher = new SearchFiles(p -> p.getFileName().toString().matches(type)); //  "^(A.+)"
+            searcher = new SearchFiles(p -> p.getFileName().toString().matches(pattern.pattern())); //  "^(A.+)"
         } else if (findType.equals("f")) {
             searcher = new SearchFiles(p -> p.getFileName().toString().equals(type));
         } else if (findType.equals("m")) {
