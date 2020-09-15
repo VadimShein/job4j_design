@@ -38,7 +38,7 @@ select * from product as pr
 
 --3. Написать запрос, который выводит все продукты, срок годности которых заканчивается в следующем месяце.
 select * from product as pr
-	where pr.expired_date < '2020-10-31 23:59:00';
+	where pr.expired_date < (select current_date + interval '1 month');
 
 --4. Написать запрос, который выводит самый дорогой продукт.
 select * from product where price = (select max(price) from product);
