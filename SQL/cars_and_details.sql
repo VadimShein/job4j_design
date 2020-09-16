@@ -42,17 +42,23 @@ insert into car(name, body_id, motor_id, transmission_id) values('Ford', '3', '3
 
 --1. Вывести список всех машин и все привязанные к ним детали.
 select c.name, b.name, m.name, t.name from car as c 
-	left outer join body as b on c.body_id=b.id 
-	left outer join motor as m on c.motor_id=m.id 
-	left outer join transmission as t on c.transmission_id=t.id;
+	 inner join body as b on c.body_id=b.id 
+	 inner join motor as m on c.motor_id=m.id 
+	 inner join transmission as t on c.transmission_id=t.id;
 
 --2. Вывести отдельно детали, которые не используются в машине, кузова, двигатели, коробки передач.
-select m.name, b.name, t.name from car as c
-	full outer join motor as m on c.motor_id=m.id 
-	full outer join body as b on c.body_id=b.id
-	full outer join transmission as t on c.transmission_id=t.id
+select b.name from car as c
+	right outer join body as b on c.body_id=b.id 
 	where c.id is null
 	;
 
+select m.name from car as c
+	right outer join motor as m on c.motor_id=m.id 
+	where c.id is null
+	;
 
-
+select t.name from car as c
+	right outer join transmission as t on c.transmission_id=t.id 
+	where c.id is null
+	;
+	
