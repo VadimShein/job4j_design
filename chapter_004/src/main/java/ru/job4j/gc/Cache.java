@@ -1,9 +1,6 @@
 package ru.job4j.gc;
 
-public interface Cache {
-    String get(String key);
-
-    static String download(String key) {
-        return null;
-    }
+public interface Cache<K, V> {
+    V get(K key);
+    V download(K key);
 }

@@ -6,14 +6,15 @@ import java.lang.ref.SoftReference;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SoftCache implements Cache {
-    private Map<String, SoftReference<String>> cacheMap = new ConcurrentHashMap<>();
+public class SoftCache<K, V> implements Cache<K, V> {
+    private Map<K, SoftReference<V>> cacheMap = new ConcurrentHashMap<>();
 
-    public String get(String key) {
-        String rsl;
+    @Override
+    public V get(K key) {
+        V rsl;
         if (!cacheMap.containsKey(key)) {
-            String value = download(key);
-            SoftReference<String> vol = new SoftReference<>(value);
+            V value = download(key);
+            SoftReference<V> vol = new SoftReference<>(value);
             cacheMap.put(key, vol);
             rsl = value;
         } else {
@@ -22,7 +23,8 @@ public class SoftCache implements Cache {
         return rsl;
     }
 
-    public static String download(String key) {
+    @Override
+    public V download(K key) {
         String path = "./chapter_004/src/main/java/ru/job4j/gc/data/" + key;
         StringBuilder rsl = new StringBuilder();
         try (BufferedReader in = new BufferedReader(new FileReader(path))) {
@@ -33,11 +35,11 @@ public class SoftCache implements Cache {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return rsl.toString();
+        return (V) rsl.toString();
     }
 
     public static void main(String[] args) {
-        Cache sf = new SoftCache();
+        Cache<String, String> sf = new SoftCache<>();
         String rsl = sf.get("Address.txt");
         System.out.println(rsl);
     }
