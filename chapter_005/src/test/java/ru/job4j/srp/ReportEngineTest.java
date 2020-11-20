@@ -31,7 +31,7 @@ public class ReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        ReportEngine engine = new ReportEngine(store);
+        Report engine = new ReportForProgrammer(store);
 
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
@@ -43,7 +43,7 @@ public class ReportEngineTest {
                 .append(worker.getSalary()).append(";")
                 .append("</Employee>")
                 .append(System.lineSeparator());
-        assertThat(engine.generateForProgrammer(em -> true), is(expect.toString()));
+        assertThat(engine.report(em -> true), is(expect.toString()));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class ReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        ReportEngine engine = new ReportEngine(store);
+        Report engine = new ReportForAccountant(store);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -61,8 +61,7 @@ public class ReportEngineTest {
                 .append(worker.getFired()).append(";")
                 .append(Math.round(worker.getSalary())).append(";")
                 .append(System.lineSeparator());
-        System.out.println(expect);
-        assertThat(engine.generateForAccountant(em -> true), is(expect.toString()));
+        assertThat(engine.report(em -> true), is(expect.toString()));
     }
 
     @Test
@@ -73,7 +72,7 @@ public class ReportEngineTest {
         store.add(worker1);
         Employee worker2 = new Employee("Vasiliy", now, now, 200);
         store.add(worker2);
-        ReportEngine engine = new ReportEngine(store);
+        Report engine = new ReportForHR(store);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -83,7 +82,6 @@ public class ReportEngineTest {
                 .append(worker1.getName()).append(";")
                 .append(worker1.getSalary()).append(";")
                 .append(System.lineSeparator());
-        System.out.println(expect);
-        assertThat(engine.generateForHR(em -> true), is(expect.toString()));
+        assertThat(engine.report(em -> true), is(expect.toString()));
     }
 }
