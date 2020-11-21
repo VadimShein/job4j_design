@@ -84,4 +84,57 @@ public class ReportEngineTest {
                 .append(System.lineSeparator());
         assertThat(engine.report(em -> true), is(expect.toString()));
     }
+
+    @Test
+    public void whenGenerateToXML() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new ReportToXML(store);
+        StringBuilder expect = new StringBuilder()
+                .append("<Employee>").append(System.lineSeparator())
+                .append("\t<Name>").append(worker.getName()).append("</Name>").append(System.lineSeparator())
+                .append("\t<Hired>").append(worker.getHired()).append("</Hired>").append(System.lineSeparator())
+                .append("\t<Fired>").append(worker.getFired()).append("</Fired>").append(System.lineSeparator())
+                .append("\t<Salary>").append(worker.getSalary()).append("</Salary>").append(System.lineSeparator())
+                .append("</Employee>").append(System.lineSeparator());
+        assertThat(engine.report(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenGenerateToJSON() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new ReportToJSON(store);
+        StringBuilder expect = new StringBuilder()
+                .append("{").append(System.lineSeparator())
+                .append("\t\"Name\": \"").append(worker.getName()).append("\",").append(System.lineSeparator())
+                .append("\t\"Hired\": \"").append(worker.getHired()).append("\",").append(System.lineSeparator())
+                .append("\t\"Fired\": \"").append(worker.getFired()).append("\",").append(System.lineSeparator())
+                .append("\t\"Salary\": \"").append(worker.getSalary()).append("\"").append(System.lineSeparator())
+                .append("}").append(System.lineSeparator());
+        assertThat(engine.report(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenGenerateToHTML() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new ReportToHTML(store);
+        StringBuilder expect = new StringBuilder()
+                .append("<html>").append(System.lineSeparator())
+                .append("<body>").append(System.lineSeparator())
+                .append("<p>").append(worker.getName()).append("</p>").append(System.lineSeparator())
+                .append("<p>").append(worker.getHired()).append("</p>").append(System.lineSeparator())
+                .append("<p>").append(worker.getFired()).append("</p>").append(System.lineSeparator())
+                .append("<p>").append(worker.getSalary()).append("</p>").append(System.lineSeparator())
+                .append("</body>").append(System.lineSeparator())
+                .append("/html").append(System.lineSeparator());
+        assertThat(engine.report(em -> true), is(expect.toString()));
+    }
 }
