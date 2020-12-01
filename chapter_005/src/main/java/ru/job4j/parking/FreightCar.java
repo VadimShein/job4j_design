@@ -2,11 +2,11 @@ package ru.job4j.parking;
 
 public class FreightCar implements Car {
     private String name;
-    private String type;
+    private int size;
 
-    public FreightCar(String name, String type) {
+    public FreightCar(String name, int size) {
         this.name = name;
-        this.type = type;
+        this.size = size;
     }
 
     @Override
@@ -15,7 +15,7 @@ public class FreightCar implements Car {
     }
 
     @Override
-    public String getType() {
-        return type;
+    public int getSize() {
+        return size;
     }
 }

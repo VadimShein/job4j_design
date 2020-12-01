@@ -17,15 +17,15 @@ public class CarParking implements Parking {
     }
 
     public void addCar(Car car) {
-        if (car.getType().equals("passenger") & maxPassengerCar > 0) {
+        if (car.getSize() == 1 & maxPassengerCar > 0) {
             cars.add(car);
             passengerCarCount++;
             maxPassengerCar--;
-        } else if (car.getType().equals("freight") & maxFreightCar > 0) {
+        } else if (car.getSize() == 2 & maxFreightCar > 0) {
             cars.add(car);
             freightCarCount++;
             maxFreightCar--;
-        } else if (car.getType().equals("freight") & maxPassengerCar > 1) {
+        } else if (car.getSize() == 2 & maxPassengerCar > 1) {
             cars.add(car);
             freightCarCount++;
             maxPassengerCar -= 2;

@@ -10,12 +10,11 @@ public class ParkingTest {
     @Test
     public void whenOnePassengerCarAndOneFreightCar() {
         Parking parking = new CarParking(4, 2);
-        Car c1 = new PassengerCar("pc1", "passenger");
-        Car c2 = new FreightCar("fc1", "freight");
+        Car c1 = new PassengerCar("pc1", 1);
+        Car c2 = new FreightCar("fc1", 2);
 
         parking.addCar(c1);
         parking.addCar(c2);
-
 
         assertThat(parking.getPassengerCarCount(), is(1));
         assertThat(parking.getFreightCarCount(), is(1));
@@ -24,9 +23,9 @@ public class ParkingTest {
     @Test
     public void whetThreeFreightCar() {
         Parking parking = new CarParking(4, 2);
-        Car c1 = new FreightCar("fc1", "freight");
-        Car c2 = new FreightCar("fc2", "freight");
-        Car c3 = new FreightCar("fc3", "freight");
+        Car c1 = new FreightCar("fc1", 2);
+        Car c2 = new FreightCar("fc2", 2);
+        Car c3 = new FreightCar("fc3", 2);
 
         parking.addCar(c1);
         parking.addCar(c2);
@@ -40,8 +39,8 @@ public class ParkingTest {
     @Test (expected = IllegalArgumentException.class)
     public void whetException() {
         Parking parking = new CarParking(1, 2);
-        Car c1 = new PassengerCar("pc1", "passenger");
-        Car c2 = new PassengerCar("pc2", "passenger");
+        Car c1 = new PassengerCar("pc1", 1);
+        Car c2 = new PassengerCar("pc2", 1);
 
         parking.addCar(c1);
         parking.addCar(c2);
