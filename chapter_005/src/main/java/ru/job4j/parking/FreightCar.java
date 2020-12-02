@@ -2,7 +2,7 @@ package ru.job4j.parking;
 
 public class FreightCar implements Car {
     private String name;
-    private int size;
+    private final int size;
 
     public FreightCar(String name, int size) {
         this.name = name;
