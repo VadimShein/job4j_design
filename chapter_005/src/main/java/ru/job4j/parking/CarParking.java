@@ -8,6 +8,7 @@ public class CarParking implements Parking {
     private int maxFreightCar;
     private int passengerCarCount = 0;
     private int freightCarCount = 0;
+    private final int SINGLE_SPACE = 1;
 
     List<Car> cars = new ArrayList<>();
 
@@ -17,18 +18,18 @@ public class CarParking implements Parking {
     }
 
     public void addCar(Car car) {
-        if (car.getSize() == 1 & maxPassengerCar > 0) {
+        if (car.getSize() == SINGLE_SPACE & maxPassengerCar > 0) {
             cars.add(car);
             passengerCarCount++;
             maxPassengerCar--;
-        } else if (car.getSize() == 2 & maxFreightCar > 0) {
+        } else if (car.getSize() != SINGLE_SPACE & maxFreightCar > 0) {
             cars.add(car);
             freightCarCount++;
             maxFreightCar--;
-        } else if (car.getSize() == 2 & maxPassengerCar > 1) {
+        } else if (car.getSize() != SINGLE_SPACE & maxPassengerCar > car.getSize()) {
             cars.add(car);
             freightCarCount++;
-            maxPassengerCar -= 2;
+            maxPassengerCar -= car.getSize();
         } else {
             throw new IllegalArgumentException("Free seat wasn't find");
         }
