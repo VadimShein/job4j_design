@@ -26,7 +26,7 @@ public class CarParking implements Parking {
             cars.add(car);
             freightCarCount++;
             maxFreightCar--;
-        } else if (car.getSize() != SINGLE_SPACE & maxPassengerCar > car.getSize()) {
+        } else if (car.getSize() != SINGLE_SPACE & maxPassengerCar >= car.getSize()) {
             cars.add(car);
             freightCarCount++;
             maxPassengerCar -= car.getSize();
