@@ -61,28 +61,4 @@ public class Food {
     public int hashCode() {
         return Objects.hash(name, expiryDate, createDate, price, discount);
     }
-
-    public static void main(String[] args)  {
-        Food apple = new Food("apple", new GregorianCalendar(2022, Calendar.JANUARY, 25), new GregorianCalendar(2019, Calendar.JANUARY, 25), 100, 0);
-        Food milk = new Food("milk", new GregorianCalendar(2020, Calendar.DECEMBER, 1), new GregorianCalendar(2020, Calendar.NOVEMBER, 20), 100, 0);
-        Food tomatoes = new Food("tomatoes", new GregorianCalendar(2023, Calendar.MAY, 25), new GregorianCalendar(2020, Calendar.MAY, 25), 100, 0);
-
-        Storage warehouse = new Warehouse();
-        Storage shop = new Shop();
-        Storage trash = new Trash();
-
-        ControlQuality control = new ControlQuality();
-        control.addStorage(warehouse);
-        control.addStorage(shop);
-        control.addStorage(trash);
-
-        control.distribute(apple);
-        control.distribute(milk);
-        control.distribute(tomatoes);
-
-
-        System.out.println(warehouse.clear().get(0).getName());
-        System.out.println(shop.clear().get(0).getName());
-        System.out.println(trash.clear().get(0).getName());
-    }
 }
