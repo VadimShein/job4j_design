@@ -12,9 +12,9 @@ public class ThreadState {
 
         first.start();
         second.start();
-        Thread.sleep(100);
-        if (first.getState() == Thread.State.TERMINATED & second.getState() == Thread.State.TERMINATED) {
-            System.out.println("job is finished");
-        }
+        first.join();
+        second.join();
+
+        System.out.println(Thread.currentThread().getName() + ": job is finished");
     }
 }
