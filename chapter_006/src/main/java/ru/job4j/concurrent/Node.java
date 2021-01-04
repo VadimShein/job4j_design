@@ -13,17 +13,17 @@ public class Node<T> {
         return next;
     }
 
-    public void setNext(Node<T> next) {
+    public Node<T> setNext(Node<T> next) {
         T value = this.value;
-        this.next = new Node<>(value, next).getNext();
+        return new Node<>(value, next);
     }
 
     public T getValue() {
         return value;
     }
 
-    public void setValue(T value) {
+    public Node<T> setValue(T value) {
         Node<T> next = this.next;
-        this.value = new Node<>(value, next).getValue();
+        return new Node<>(value, next);
     }
 }
