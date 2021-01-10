@@ -9,7 +9,7 @@ import java.util.Map;
 @ThreadSafe
 public class UserStorage {
     @GuardedBy("this")
-    Map<Integer, UserS> map = new HashMap<>();
+    private final Map<Integer, UserS> map = new HashMap<>();
 
     public synchronized boolean add(UserS user) {
         map.put(user.getId(), UserS.of(user.getId(), user.getAmount()));
@@ -31,12 +31,10 @@ public class UserStorage {
         UserS fromUser = map.get(fromId);
         UserS toUser = map.get(toId);
 
-        if (fromUser.getAmount() > amount) {
+        if (map.containsKey(fromId) & map.containsKey(toId) & fromUser.getAmount() > amount) {
             fromUser.setAmount(fromUser.getAmount() - amount);
             toUser.setAmount(toUser.getAmount() + amount);
-            boolean fromUpd = update(fromUser);
-            boolean toUpd = update(toUser);
-            rsl = fromUpd & toUpd;
+            rsl = true;
         }
         return rsl;
     }
