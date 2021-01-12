@@ -31,7 +31,7 @@ public class UserStorage {
         UserS fromUser = map.get(fromId);
         UserS toUser = map.get(toId);
 
-        if (map.containsKey(fromId) & map.containsKey(toId) & fromUser.getAmount() > amount) {
+        if (fromUser != null && toUser != null && fromUser.getAmount() >= amount) {
             fromUser.setAmount(fromUser.getAmount() - amount);
             toUser.setAmount(toUser.getAmount() + amount);
             rsl = true;
