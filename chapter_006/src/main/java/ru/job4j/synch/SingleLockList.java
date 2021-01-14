@@ -9,7 +9,7 @@ import java.util.Iterator;
 @ThreadSafe
 public class SingleLockList<T> implements Iterable<T> {
 
-    private SimpleList<T> list = new SimpleList<>();
+    private final SimpleList<T> list = new SimpleList<>();
     @GuardedBy("this")
     public synchronized void add(T value) {
         list.add(value);
