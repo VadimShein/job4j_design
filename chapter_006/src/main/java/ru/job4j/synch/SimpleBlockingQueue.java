@@ -8,17 +8,15 @@ import java.util.Queue;
 
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
+    private final Object monitor = this;
+    private int count = 0;
+    private static final int MAX = 2;
+
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
-    private final Object monitor = this;
-    private int max;
-
-    public SimpleBlockingQueue(int max) {
-        this.max = max;
-    }
 
     public synchronized void offer(T value) {
-            while (queue.size() == max) {
+            while (count == MAX) {
                 try {
                     monitor.wait();
                 } catch (InterruptedException e) {
@@ -26,12 +24,13 @@ public class SimpleBlockingQueue<T> {
                 }
             }
             queue.add(value);
+            count++;
             monitor.notifyAll();
     }
 
     public synchronized T poll() {
         T element;
-            while (queue.size() == 0) {
+            while (count == 0) {
                 try {
                     monitor.wait();
                 } catch (InterruptedException e) {
@@ -39,6 +38,7 @@ public class SimpleBlockingQueue<T> {
                 }
             }
             element = queue.poll();
+            count--;
             monitor.notifyAll();
         return element;
     }

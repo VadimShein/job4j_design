@@ -11,7 +11,7 @@ public class SimpleBlockingQueueTest {
 
     @Test
     public void addThenPollWithOneThread() throws InterruptedException {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(2);
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
         Set<Integer> rsl = new TreeSet<>();
 
         Thread producer = new Thread(
@@ -28,7 +28,7 @@ public class SimpleBlockingQueueTest {
 
     @Test
     public void addThenPollWithThreeThread() throws InterruptedException {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(2);
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
         Set<Integer> rsl = new TreeSet<>();
 
         Thread producer = new Thread(
