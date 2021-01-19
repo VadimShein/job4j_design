@@ -11,10 +11,7 @@ public class CountBarrier {
 
     public void count() {
         synchronized (monitor) {
-            count = 0;
-            while (count < total) {
                 count++;
-            }
             monitor.notifyAll();
         }
     }
@@ -32,10 +29,11 @@ public class CountBarrier {
     }
 
     public static void main(String[] args) {
-        CountBarrier barrier = new CountBarrier(1000000000);
+        CountBarrier barrier = new CountBarrier(2);
         Thread master = new Thread(
                 () -> {
                     System.out.println(Thread.currentThread().getName() + " started");
+                    barrier.count();
                     barrier.count();
                 },
                 "Master"
