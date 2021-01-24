@@ -1,22 +1,23 @@
 package ru.job4j.synch;
 
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.CountDownLatch;
 
 public class ParallelSearch {
     public static void main(String[] args) {
+        final CountDownLatch countDownLatch = new CountDownLatch(3);
         final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(2);
-        final AtomicBoolean flag = new AtomicBoolean(false);
 
         final Thread consumer = new Thread(
                 () -> {
                     while (!Thread.currentThread().isInterrupted()) {
                         try {
-                            if (flag.get()) {
+                            if (countDownLatch.getCount() == 0) {
                                 Thread.currentThread().interrupt();
                             } else {
                                 System.out.println(queue.poll());
-                                Thread.sleep(200);
+                                countDownLatch.countDown();
+                                Thread.sleep(10);
                             }
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -39,21 +40,6 @@ public class ParallelSearch {
                 }
         ).start();
 
-        final Thread check = new Thread(
-                () -> {
-                    try {
-                        Thread.sleep(600);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    while (!flag.get()) {
-                        if (consumer.getState() == Thread.State.WAITING) {
-                            flag.set(true);
-                        }
-                    }
-                }
-        );
         consumer.start();
-        check.start();
     }
 }
