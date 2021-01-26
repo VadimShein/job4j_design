@@ -12,13 +12,9 @@ public class ParallelSearch {
                 () -> {
                     while (!Thread.currentThread().isInterrupted()) {
                         try {
-                            if (countDownLatch.getCount() == 0) {
-                                Thread.currentThread().interrupt();
-                            } else {
-                                System.out.println(queue.poll());
-                                countDownLatch.countDown();
-                                Thread.sleep(10);
-                            }
+                            System.out.println(queue.poll());
+                            countDownLatch.countDown();
+                            Thread.sleep(10);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                             Thread.currentThread().interrupt();
@@ -41,5 +37,12 @@ public class ParallelSearch {
         ).start();
 
         consumer.start();
+
+        try {
+            countDownLatch.await();
+            consumer.interrupt();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
