@@ -21,11 +21,7 @@ class CASCount<T> {
     }
 
     public int get() {
-        Integer ref = count.get();
-        if (ref == null) {
-            throw new IllegalStateException("Count is empty");
-        }
-        return ref;
+        return count.get();
     }
 
     public static void main(String[] args) {
