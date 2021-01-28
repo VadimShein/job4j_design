@@ -7,13 +7,11 @@ import java.util.concurrent.atomic.AtomicReference;
 @ThreadSafe
 class CASCount<T> {
     private final AtomicReference<Integer> count = new AtomicReference<>();
-    Integer ref;
-    Integer cur;
 
     public void increment() {
-        if (ref != null) {
-            ref = count.get();
-        } else {
+        Integer ref = count.get();
+        Integer cur;
+        if (ref == null) {
             ref = 0;
         }
         do {
@@ -23,7 +21,7 @@ class CASCount<T> {
     }
 
     public int get() {
-        ref = count.get();
+        Integer ref = count.get();
         if (ref == null) {
             throw new IllegalStateException("Count is empty");
         }
