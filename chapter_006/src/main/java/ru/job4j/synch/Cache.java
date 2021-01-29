@@ -14,17 +14,17 @@ public class Cache {
 
     public void update(Base model) {
         int id = model.getId();
-        int oldVersion = model.getVersion();
-        int newVersion = oldVersion + 1;
+        int oldVersion = map.get(model.getId()).getVersion();
 
-        Base base = new Base(id);
-        base.setVersion(newVersion);
-
-        if (oldVersion != model.getVersion()) {
-            OptimisticException ex = new OptimisticException();
-            ex.getException();
-        }
-        map.computeIfPresent(id, (key, val) -> val = base);
+        map.computeIfPresent(id, (key, val) -> {
+                    if (oldVersion != val.getVersion()) {
+                        OptimisticException ex = new OptimisticException();
+                        ex.getException();
+                    }
+            val.setVersion(val.getVersion() + 1);
+                    return val;
+                }
+        );
     }
 
     public void delete(Base model) {

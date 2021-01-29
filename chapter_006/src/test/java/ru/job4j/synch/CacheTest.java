@@ -36,6 +36,10 @@ public class CacheTest {
         update.start();
         update.join();
 
-        Assert.assertThat(cache.get(1).getVersion(), is(1));
+        Thread update2 = new Thread(() -> cache.update(new Base(1)));
+        update2.start();
+        update2.join();
+
+        Assert.assertThat(cache.get(1).getVersion(), is(2));
     }
 }
