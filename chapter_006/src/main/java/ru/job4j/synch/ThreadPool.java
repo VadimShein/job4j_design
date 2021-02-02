@@ -23,44 +23,41 @@ public class ThreadPool {
 
     public void shutdown() {
         for (PThread thread : threads) {
-            thread.stopThread();
+            thread.interrupt();
         }
     }
 
     static class PThread extends Thread {
         private final SimpleBlockingQueue<Runnable> tasks;
-        private boolean isStopped = false;
 
         public PThread(SimpleBlockingQueue<Runnable> tasks) {
             this.tasks = tasks;
         }
         public void run() {
-            while (!isStopped) {
+            while (!Thread.currentThread().isInterrupted()) {
                 tasks.poll().run();
             }
         }
-        public synchronized void stopThread() {
-            isStopped = true;
-        }
     }
 
-        public static void main(String[] args) {
-            Runnable task = () -> {
-                System.out.println(Thread.currentThread().getName());
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            };
-
-            ThreadPool tp = new ThreadPool();
-            for (int i = 0; i < 8; i++) {
-                tp.work(task);
+    public static void main(String[] args) {
+        Runnable task = () -> {
+            System.out.println(Thread.currentThread().getName());
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
-//       tp.shutdown();
+        };
+
+        ThreadPool tp = new ThreadPool();
+        for (int i = 0; i < 8; i++) {
+            tp.work(task);
         }
+       tp.shutdown();
     }
+}
 
 
 
