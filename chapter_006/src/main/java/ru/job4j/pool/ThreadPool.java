@@ -1,4 +1,6 @@
-package ru.job4j.synch;
+package ru.job4j.pool;
+
+import ru.job4j.synch.SimpleBlockingQueue;
 
 import java.util.LinkedList;
 import java.util.List;

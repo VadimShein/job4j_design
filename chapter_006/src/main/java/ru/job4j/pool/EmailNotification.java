@@ -1,4 +1,4 @@
-package ru.job4j.synch;
+package ru.job4j.pool;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
