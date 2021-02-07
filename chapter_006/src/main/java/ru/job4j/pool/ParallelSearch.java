@@ -20,24 +20,21 @@ public class ParallelSearch extends RecursiveTask<Integer> {
     protected Integer compute() {
         Integer result = null;
 
-        if (from - to  < 11) {
+        if (to - from  < 11) {
             for (int i : array) {
                 if (i == index) {
                     return index;
                 }
             }
-        }
-        int mid = (from + to) / 2;
-        ParallelSearch leftSearch = new ParallelSearch(array, index, from, mid);
-        ParallelSearch rightSearch = new ParallelSearch(array, index, mid + 1, to);
-        leftSearch.fork();
-        rightSearch.fork();
-        Integer left = leftSearch.join();
-        Integer right = rightSearch.join();
-        if (left == index) {
-            result = left;
-        } else if (right == index) {
-            result = right;
+        } else {
+            int mid = (from + to) / 2;
+            ParallelSearch leftSearch = new ParallelSearch(array, index, from, mid);
+            ParallelSearch rightSearch = new ParallelSearch(array, index, mid + 1, to);
+            leftSearch.fork();
+            rightSearch.fork();
+            int left = leftSearch.join();
+            int right = rightSearch.join();
+            result = Math.max(left, right);
         }
         return result;
     }
